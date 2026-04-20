@@ -1,0 +1,220 @@
+{
+    "info": {
+        "name": "Cinema Booking - Seat Testing",
+        "description": "Collection for testing seat booking functionality",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Setup",
+            "item": [
+                {
+                    "name": "Create Movie",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/api/movies",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "movies"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Test Movie\",\n    \"description\": \"Test Description\",\n    \"duration\": 120,\n    \"imageUrl\": \"https://example.com/movie.jpg\",\n    \"genre\": \"Action\",\n    \"director\": \"Test Director\",\n    \"releaseDate\": \"2024-05-01\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Screening",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/api/screenings",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "screenings"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"movieId\": 1,\n    \"screeningTime\": \"2024-05-10T18:30:00\",\n    \"totalSeats\": 50,\n    \"rowCount\": 5,\n    \"seatsPerRow\": 10\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "2. View Seats",
+            "item": [
+                {
+                    "name": "Get All Seats for Screening",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/screenings/1/seats",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "screenings",
+                                "1",
+                                "seats"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Movie Screenings",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/screenings/movie/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "screenings",
+                                "movie",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "3. Booking Tests",
+            "item": [
+                {
+                    "name": "Book Seat (Success)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/api/bookings",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "bookings"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customerName\": \"Test User 1\",\n    \"customerEmail\": \"test1@example.com\",\n    \"customerPhone\": \"1234567890\",\n    \"screeningId\": 1,\n    \"seatId\": 1\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Book Same Seat (Should Fail)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/api/bookings",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "bookings"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"customerName\": \"Test User 2\",\n    \"customerEmail\": \"test2@example.com\",\n    \"customerPhone\": \"0987654321\",\n    \"screeningId\": 1,\n    \"seatId\": 1\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "4. Verification",
+            "item": [
+                {
+                    "name": "Check Seat Status After Booking",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/screenings/1/seats",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "screenings",
+                                "1",
+                                "seats"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Booking Details",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/bookings/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "bookings",
+                                "1"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

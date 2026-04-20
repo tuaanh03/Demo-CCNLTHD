@@ -1,0 +1,513 @@
+{
+  "info": {
+    "_postman_id": "cinema-booking-collection-2026",
+    "name": "Cinema Booking API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Cinema Booking system. Set {{base_url}} and {{token}} in your environment."
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Auth - Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"yourpassword\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "User - Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users/register", "host": ["{{base_url}}"], "path": ["api", "users", "register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User Name\",\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"0123456789\"\n}"
+            }
+          }
+        },
+        {
+          "name": "User - Update Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users/:id/status", "host": ["{{base_url}}"], "path": ["api", "users", ":id", "status"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ACTIVE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "User - Assign Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users/:id/roles", "host": ["{{base_url}}"], "path": ["api", "users", ":id", "roles"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleIds\": [\"roleId1\", \"roleId2\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "User - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/users/:id", "host": ["{{base_url}}"], "path": ["api", "users", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genre",
+      "item": [
+        {
+          "name": "Genre - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/genres", "host": ["{{base_url}}"], "path": ["api", "genres"] }
+          }
+        },
+        {
+          "name": "Genre - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/genres", "host": ["{{base_url}}"], "path": ["api", "genres"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Action\",\n  \"description\": \"Action movies\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Genre - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/genres/:id", "host": ["{{base_url}}"], "path": ["api", "genres", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Name\",\n  \"description\": \"New Description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Genre - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/genres/:id", "host": ["{{base_url}}"], "path": ["api", "genres", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Movie",
+      "item": [
+        {
+          "name": "Movie - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/movies", "host": ["{{base_url}}"], "path": ["api", "movies"] }
+          }
+        },
+        {
+          "name": "Movie - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/movies", "host": ["{{base_url}}"], "path": ["api", "movies"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Movie Title\",\n  \"description\": \"Description\",\n  \"duration\": \"120\",\n  \"releaseDate\": \"2026-04-05\",\n  \"status\": \"COMING_SOON\",\n  \"genreId\": \"genreId\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Movie - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/movies/:id", "host": ["{{base_url}}"], "path": ["api", "movies", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Title\",\n  \"description\": \"New Description\",\n  \"duration\": \"130\",\n  \"releaseDate\": \"2026-05-01\",\n  \"status\": \"NOW_SHOWING\",\n  \"genreId\": \"genreId\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Movie - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/movies/:id", "host": ["{{base_url}}"], "path": ["api", "movies", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Booking",
+      "item": [
+        {
+          "name": "Booking - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/bookings", "host": ["{{base_url}}"], "path": ["api", "bookings"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"userId\",\n  \"showTimeId\": \"showTimeId\",\n  \"seatShowTimeIds\": [\"seatShowTimeId1\", \"seatShowTimeId2\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Booking - Confirm",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/bookings/:id/confirm", "host": ["{{base_url}}"], "path": ["api", "bookings", ":id", "confirm"] }
+          }
+        },
+        {
+          "name": "Booking - Get User Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/bookings/user/:userId", "host": ["{{base_url}}"], "path": ["api", "bookings", "user", ":userId"] }
+          }
+        },
+        {
+          "name": "Booking - Cancel",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/bookings/:id", "host": ["{{base_url}}"], "path": ["api", "bookings", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Seat Hold",
+      "item": [
+        {
+          "name": "Seat Hold - Reserve",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/seat-holds/reserve", "host": ["{{base_url}}"], "path": ["api", "seat-holds", "reserve"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"userId\",\n  \"showTimeId\": \"showTimeId\",\n  \"seatShowTimeIds\": [\"seatShowTimeId1\", \"seatShowTimeId2\"],\n  \"holdDuration\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "Seat Hold - Release",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/seat-holds/release", "host": ["{{base_url}}"], "path": ["api", "seat-holds", "release"] },
+            "body": {
+              "mode": "raw",
+              "raw": "[\"seatShowTimeId1\", \"seatShowTimeId2\"]"
+            }
+          }
+        },
+        {
+          "name": "Seat Hold - Check Valid",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/seat-holds/:seatShowTimeId/valid", "host": ["{{base_url}}"], "path": ["api", "seat-holds", ":seatShowTimeId", "valid"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ShowTime",
+      "item": [
+        {
+          "name": "ShowTime - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/showtimes", "host": ["{{base_url}}"], "path": ["api", "showtimes"] }
+          }
+        },
+        {
+          "name": "ShowTime - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/showtimes", "host": ["{{base_url}}"], "path": ["api", "showtimes"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"movieId\",\n  \"roomId\": \"roomId\",\n  \"startTime\": \"2026-04-05T19:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "ShowTime - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/showtimes/:id", "host": ["{{base_url}}"], "path": ["api", "showtimes", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"movieId\",\n  \"roomId\": \"roomId\",\n  \"startTime\": \"2026-04-06T20:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "ShowTime - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/showtimes/:id", "host": ["{{base_url}}"], "path": ["api", "showtimes", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Room",
+      "item": [
+        {
+          "name": "Room - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/rooms", "host": ["{{base_url}}"], "path": ["api", "rooms"] }
+          }
+        },
+        {
+          "name": "Room - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/rooms", "host": ["{{base_url}}"], "path": ["api", "rooms"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomName\": \"Room 1\",\n  \"totalRows\": 10,\n  \"totalColumns\": 15\n}"
+            }
+          }
+        },
+        {
+          "name": "Room - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/rooms/:id", "host": ["{{base_url}}"], "path": ["api", "rooms", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomName\": \"Room 2\",\n  \"totalRows\": 12,\n  \"totalColumns\": 18\n}"
+            }
+          }
+        },
+        {
+          "name": "Room - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/rooms/:id", "host": ["{{base_url}}"], "path": ["api", "rooms", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Role",
+      "item": [
+        {
+          "name": "Role - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/roles", "host": ["{{base_url}}"], "path": ["api", "roles"] }
+          }
+        },
+        {
+          "name": "Role - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/roles", "host": ["{{base_url}}"], "path": ["api", "roles"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"ADMIN\",\n  \"description\": \"Administrator\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Role - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/roles/:id", "host": ["{{base_url}}"], "path": ["api", "roles", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"USER\",\n  \"description\": \"Regular user\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Role - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/roles/:id", "host": ["{{base_url}}"], "path": ["api", "roles", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permission",
+      "item": [
+        {
+          "name": "Permission - Get All",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/permissions", "host": ["{{base_url}}"], "path": ["api", "permissions"] }
+          }
+        },
+        {
+          "name": "Permission - Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/permissions", "host": ["{{base_url}}"], "path": ["api", "permissions"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"CREATE_GENRE\",\n  \"description\": \"Can create genre\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Permission - Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/permissions/:id", "host": ["{{base_url}}"], "path": ["api", "permissions", ":id"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"UPDATE_GENRE\",\n  \"description\": \"Can update genre\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Permission - Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{base_url}}/api/permissions/:id", "host": ["{{base_url}}"], "path": ["api", "permissions", ":id"] }
+          }
+        }
+      ]
+    }
+  ]
+}
