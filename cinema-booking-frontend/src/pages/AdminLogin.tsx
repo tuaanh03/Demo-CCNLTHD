@@ -157,9 +157,9 @@ export const AdminLogin: React.FC = () => {
                             fullWidth
                             variant="text"
                             sx={{ mt: 2 }}
-                            onClick={() => navigate('/')}
+                            onClick={() => navigate('/login')}
                         >
-                            Về trang đặt vé
+                            Về đăng nhập người dùng
                         </Button>
                     </form>
                 </Paper>

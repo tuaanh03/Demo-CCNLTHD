@@ -45,7 +45,7 @@ export const Login: React.FC = () => {
                 setError('Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản/mật khẩu.');
                 return;
             }
-            navigate('/');
+            navigate('/admin/login');
         } catch (err: any) {
             // Ưu tiên message từ backend nếu có
             if (axios.isAxiosError(err)) {
@@ -85,7 +85,7 @@ export const Login: React.FC = () => {
                             Đăng Nhập
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Đăng nhập để đặt vé xem phim
+                            Đăng nhập tài khoản người dùng cho demo security
                         </Typography>
                     </Box>
 

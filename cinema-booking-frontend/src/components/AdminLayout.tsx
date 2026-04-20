@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton, Avatar, Menu, MenuItem, Collapse } from '@mui/material';
+import { Box, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton, Avatar, Menu, MenuItem } from '@mui/material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import MovieIcon from '@mui/icons-material/Movie';
-import EventIcon from '@mui/icons-material/Event';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useAdminAuth } from '../context/AdminAuthContext';
-import ChairIcon from '@mui/icons-material/Chair';
 import PeopleIcon from '@mui/icons-material/People';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import SecurityIcon from '@mui/icons-material/Security';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const drawerWidth = 260;
 
@@ -27,14 +18,6 @@ interface MenuItemType {
 }
 
 const menuItems: MenuItemType[] = [
-    { text: 'Bảng Điều Khiển', icon: <DashboardIcon />, path: '/admin' },
-    { text: 'Quản lý Phim', icon: <MovieIcon />, path: '/admin/movies' },
-    { text: 'Phòng Chiếu', icon: <ChairIcon />, path: '/admin/rooms' },
-    { text: 'Suất Chiếu', icon: <EventIcon />, path: '/admin/screenings' },
-    { text: 'Đặt Vé', icon: <ConfirmationNumberIcon />, path: '/admin/bookings' },
-];
-
-const systemMenuItems: MenuItemType[] = [
     { text: 'Quản lý User', icon: <PeopleIcon />, path: '/admin/users' },
     { text: 'Quản lý quyền (Role)', icon: <SecurityIcon />, path: '/admin/roles' },
     { text: 'Quản lý Permission', icon: <VpnKeyIcon />, path: '/admin/permissions' },
@@ -43,12 +26,9 @@ const systemMenuItems: MenuItemType[] = [
 export const AdminLayout: React.FC = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [systemExpanded, setSystemExpanded] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const { isAdminLoggedIn, logoutAdmin, isAdminInitialized, adminEmail } = useAdminAuth() as any;
-
-    const isSystemActive = systemMenuItems.some((item) => location.pathname === item.path);
 
     useEffect(() => {
         if (!isAdminInitialized) return;
@@ -56,12 +36,6 @@ export const AdminLayout: React.FC = () => {
             navigate('/admin/login', { replace: true });
         }
     }, [isAdminInitialized, isAdminLoggedIn, navigate]);
-
-    useEffect(() => {
-        if (isSystemActive) {
-            setSystemExpanded(true);
-        }
-    }, [isSystemActive]);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -99,7 +73,7 @@ export const AdminLayout: React.FC = () => {
                         Khu Vực Quản Trị
                     </Typography>
                     <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                        Quản Lý Rạp Chiếu Phim
+                        User Management Demo
                     </Typography>
                 </Box>
             </Box>
@@ -133,65 +107,6 @@ export const AdminLayout: React.FC = () => {
                         </ListItemButton>
                     );
                 })}
-
-                <ListItemButton
-                    onClick={() => setSystemExpanded((prev) => !prev)}
-                    sx={{
-                        borderRadius: 2,
-                        mb: 1,
-                        backgroundColor: isSystemActive ? 'rgba(255, 107, 0, 0.1)' : 'transparent',
-                        color: isSystemActive ? '#ff6b00' : 'text.primary',
-                        '&:hover': {
-                            backgroundColor: isSystemActive ? 'rgba(255, 107, 0, 0.15)' : 'rgba(0, 0, 0, 0.04)',
-                        },
-                    }}
-                >
-                    <ListItemIcon sx={{ color: isSystemActive ? '#ff6b00' : 'inherit', minWidth: 40 }}>
-                        <SettingsSuggestIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary="Hệ thống"
-                        primaryTypographyProps={{
-                            fontWeight: isSystemActive ? 600 : 400,
-                        }}
-                    />
-                    {systemExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-
-                <Collapse in={systemExpanded} timeout="auto" unmountOnExit>
-                    <List disablePadding>
-                        {systemMenuItems.map((item) => {
-                            const isActive = location.pathname === item.path;
-                            return (
-                                <ListItemButton
-                                    key={item.text}
-                                    onClick={() => navigate(item.path)}
-                                    sx={{
-                                        borderRadius: 2,
-                                        mb: 0.75,
-                                        ml: 2,
-                                        backgroundColor: isActive ? 'rgba(255, 107, 0, 0.1)' : 'transparent',
-                                        color: isActive ? '#ff6b00' : 'text.secondary',
-                                        '&:hover': {
-                                            backgroundColor: isActive ? 'rgba(255, 107, 0, 0.15)' : 'rgba(0, 0, 0, 0.04)',
-                                        },
-                                    }}
-                                >
-                                    <ListItemIcon sx={{ color: isActive ? '#ff6b00' : 'inherit', minWidth: 36 }}>
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={item.text}
-                                        primaryTypographyProps={{
-                                            fontWeight: isActive ? 600 : 400,
-                                            variant: 'body2',
-                                        }}
-                                    />
-                                </ListItemButton>
-                            );
-                        })}
-                    </List>
-                </Collapse>
             </List>
             <Divider />
         
@@ -221,7 +136,7 @@ export const AdminLayout: React.FC = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
-                        Quản Trị Hệ Thống
+                        Quản Trị User, Role, Permission
                     </Typography>
                     <IconButton onClick={handleMenuOpen} sx={{ p: 0 }}>
                         <Avatar sx={{ bgcolor: '#ff6b00' }}>A</Avatar>

@@ -1,25 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, Box, Snackbar, Alert } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, CssBaseline, Snackbar, Alert } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { MovieList } from './pages/MovieList';
-import { MovieDetail } from './pages/MovieDetail';
-import { ScreeningList } from './pages/ScreeningList';
-import { SeatSelection } from './pages/SeatSelection';
-import { BookingConfirmation } from './pages/BookingConfirmation';
-import { BookingHistory } from './pages/BookingHistory';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
-import { Navigation } from './components/Navigation';
 import { AuthProvider } from './context/AuthContext';
-import { GenreProvider } from './context/GenreContext';
-import { SearchProvider } from './context/SearchContext';
 import { AdminLayout } from './components/AdminLayout';
-import { AdminDashboard } from './pages/AdminDashboard';
-import { AdminMovies } from './pages/AdminMovies';
-import { AdminRooms } from './pages/AdminRooms';
-import { AdminScreenings } from './pages/AdminScreenings';
-import { AdminBookings } from './pages/AdminBookings';
 import { AdminUsers } from './pages/AdminUsers';
 import { AdminRoles } from './pages/AdminRoles';
 import { AdminPermissions } from './pages/AdminPermissions';
@@ -127,64 +113,41 @@ function App() {
     return (
         <AuthProvider>
             <AdminAuthProvider>
-                <GenreProvider>
-                    <SearchProvider>
-                        <ThemeProvider theme={theme}>
-                            <CssBaseline />
-                            <Router>
-                                <Routes>
-                                    {/* Auth routes - no navigation */}
-                                    <Route path="/login" element={<Login />} />
-                                    <Route path="/register" element={<Register />} />
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Router>
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/admin/login" element={<AdminLogin />} />
 
-                                    {/* Admin auth route */}
-                                    <Route path="/admin/login" element={<AdminLogin />} />
+                            <Route path="/admin" element={<AdminLayout />}>
+                                <Route index element={<Navigate to="users" replace />} />
+                                <Route path="users" element={<AdminUsers />} />
+                                <Route path="roles" element={<AdminRoles />} />
+                                <Route path="permissions" element={<AdminPermissions />} />
+                            </Route>
 
-                                    {/* Admin routes - with admin layout */}
-                                    <Route path="/admin" element={<AdminLayout />}>
-                                        <Route index element={<AdminDashboard />} />
-                                        <Route path="movies" element={<AdminMovies />} />
-                                        <Route path="rooms" element={<AdminRooms />} />
-                                        <Route path="screenings" element={<AdminScreenings />} />
-                                        <Route path="bookings" element={<AdminBookings />} />
-                                        <Route path="users" element={<AdminUsers />} />
-                                        <Route path="roles" element={<AdminRoles />} />
-                                        <Route path="permissions" element={<AdminPermissions />} />
-                                    </Route>
+                            <Route path="/" element={<Navigate to="/login" replace />} />
+                            <Route path="*" element={<Navigate to="/login" replace />} />
+                        </Routes>
 
-                                    {/* Main routes - with navigation */}
-                                    <Route path="*" element={
-                                        <Box sx={{ minHeight: '100vh', backgroundColor: 'background.default' }}>
-                                            <Navigation />
-                                            <Routes>
-                                                <Route path="/" element={<MovieList />} />
-                                                <Route path="/movie/:id" element={<MovieDetail />} />
-                                                <Route path="/movie/:movieId/showtimes" element={<ScreeningList />} />
-                                                <Route path="/movie/:movieId/showtime/:showtimeId/seats" element={<SeatSelection />} />
-                                                <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-                                                <Route path="/booking-history" element={<BookingHistory />} />
-                                            </Routes>
-                                        </Box>
-                                    } />
-                                </Routes>
-                                <Snackbar
-                                    open={sessionExpiredOpen}
-                                    autoHideDuration={4500}
-                                    onClose={() => setSessionExpiredOpen(false)}
-                                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                                >
-                                    <Alert
-                                        onClose={() => setSessionExpiredOpen(false)}
-                                        severity="warning"
-                                        sx={{ width: '100%' }}
-                                    >
-                                        {sessionExpiredMessage}
-                                    </Alert>
-                                </Snackbar>
-                            </Router>
-                        </ThemeProvider>
-                    </SearchProvider>
-                </GenreProvider>
+                        <Snackbar
+                            open={sessionExpiredOpen}
+                            autoHideDuration={4500}
+                            onClose={() => setSessionExpiredOpen(false)}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        >
+                            <Alert
+                                onClose={() => setSessionExpiredOpen(false)}
+                                severity="warning"
+                                sx={{ width: '100%' }}
+                            >
+                                {sessionExpiredMessage}
+                            </Alert>
+                        </Snackbar>
+                    </Router>
+                </ThemeProvider>
             </AdminAuthProvider>
         </AuthProvider>
     );
