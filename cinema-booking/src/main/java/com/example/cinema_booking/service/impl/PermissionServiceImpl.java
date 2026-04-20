@@ -66,7 +66,7 @@ public class PermissionServiceImpl implements PermissionService {
         permissionRepository.deleteById(permissionId);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ADMIN_MOVIE')" )
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public PermissionResponse getByName(String name) {
         if (name == null || name.isBlank()) {
@@ -78,7 +78,7 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionMapper.toResponse(permission);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ADMIN_MOVIE')" )
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public List<PermissionResponse> getAll() {
         return permissionRepository.findAll().stream()

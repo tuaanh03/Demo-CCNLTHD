@@ -1,6 +1,7 @@
 package com.example.cinema_booking.mapper;
 
-import com.example.cinema_booking.dto.request.*;
+import com.example.cinema_booking.dto.request.UserRegisterRequest;
+import com.example.cinema_booking.dto.request.UserUpdateRequest;
 import com.example.cinema_booking.dto.response.UserResponse;
 import com.example.cinema_booking.entity.User;
 import org.mapstruct.Mapper;
@@ -15,7 +16,4 @@ public interface UserMapper {
 
     @Mapping(target = "roles", ignore = true)
     void updateUserFromRequest(UserUpdateRequest request, @MappingTarget User user);
-
-    void updateUserStatusFromRequest(UserUpdateStatusRequest request, @MappingTarget User user);
-    void assignUserRoleFromRequest(UserAssignRoleRequest request, @MappingTarget User user);
 }

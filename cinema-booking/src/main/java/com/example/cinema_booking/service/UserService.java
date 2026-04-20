@@ -11,9 +11,5 @@ public interface UserService {
     List<UserResponse> getUsers();
     UserResponse getUserById(String userId);
 
-//    void assignRoleToUser(UserAssignRoleRequest request, String userId, String role);
-
-    void updateUserStatus(UserUpdateStatusRequest request, String userId);
-
     UserResponse getMyInfo();
 }

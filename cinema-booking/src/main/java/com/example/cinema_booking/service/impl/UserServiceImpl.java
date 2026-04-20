@@ -1,6 +1,7 @@
 package com.example.cinema_booking.service.impl;
 
-import com.example.cinema_booking.dto.request.*;
+import com.example.cinema_booking.dto.request.UserRegisterRequest;
+import com.example.cinema_booking.dto.request.UserUpdateRequest;
 import com.example.cinema_booking.dto.response.UserResponse;
 import com.example.cinema_booking.entity.Role;
 import com.example.cinema_booking.entity.User;
@@ -14,7 +15,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,7 +66,7 @@ public class UserServiceImpl  implements UserService {
         return userMapper.toUserResponse(user);
     }
 
-    @PostAuthorize("returnObject.email == authentication.name or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public UserResponse updateUser(UserUpdateRequest request, String userId) {
         User user = userRepository.findById(userId)
@@ -91,8 +91,7 @@ public class UserServiceImpl  implements UserService {
     }
 
 
-    @PostAuthorize("returnObject.email == authentication.name or hasRole('ADMIN')")
-    // Chỉ cho phép người dùng truy cập vào phương thức này nếu email của họ trùng với email của user được trả về hoặc họ có role ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public UserResponse getUserById(String userId) {
         User user = userRepository.findById(userId)
@@ -115,31 +114,4 @@ public class UserServiceImpl  implements UserService {
                 .map(userMapper::toUserResponse)
                 .toList();
     }
-
-
-//    @Override
-//    public void assignRoleToUser(UserAssignRoleRequest request, String userId, String role) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-//
-//    Role parsedRole;
-//        try {
-//            parsedRole = Role.valueOf(role.toUpperCase());
-//        } catch (IllegalArgumentException e) {
-//            throw new AppException(ErrorCode.INVALID_ROLE);
-//        }
-//
-//        userMapper.assignUserRoleFromRequest(request, user);
-//        userRepository.save(user);
-//    }
-
-    @Override
-    public void updateUserStatus(UserUpdateStatusRequest request, String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        userMapper.updateUserStatusFromRequest(request, user);
-        userRepository.save(user);
-    }
-
 }
