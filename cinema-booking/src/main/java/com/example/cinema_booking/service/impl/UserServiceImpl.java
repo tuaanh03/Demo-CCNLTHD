@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -90,11 +91,24 @@ public class UserServiceImpl  implements UserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
+    @Transactional
     public UserResponse getUserById(String userId) {
-        User user = userRepository.findById(userId)
+        log.info("--- BẮT ĐẦU DEMO FIRST-LEVEL CACHE ---");
+        
+        // Lần 1: Lấy user từ Database (Sẽ in ra câu lệnh SQL SELECT)
+        log.info("1. Gọi lần 1: userRepository.findById(userId)");
+        User user1 = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        
+        // Lần 2: Lấy LẠI user đó (Sẽ KHÔNG in thêm câu lệnh SQL, vì đã lấy từ First-Level Cache của EntityManager/Session)
+        log.info("2. Gọi lần 2: userRepository.findById(userId) với cùng 1 ID");
+        User user2 = userRepository.findById(userId).get();
+        
+        // Lần 3: So sánh địa chỉ bộ nhớ (Reference). Kết quả sẽ ra TRUE.
+        log.info("3. user1 và user2 có cùng địa chỉ bộ nhớ không? => {}", (user1 == user2));
+        log.info("--- KẾT THÚC FIRST-LEVEL CACHE ---");
 
-        return userMapper.toUserResponse(user);
+        return userMapper.toUserResponse(user1);
     }
 
     @PreAuthorize("hasRole('ADMIN')") // Chỉ cho phép người dùng có role ADMIN truy cập vào phương thức này

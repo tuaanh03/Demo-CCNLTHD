@@ -20,8 +20,11 @@ public class User {
     String password;
     String phone;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "role_name", nullable = false)
     Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    UserDetails userDetails;
 
 }
