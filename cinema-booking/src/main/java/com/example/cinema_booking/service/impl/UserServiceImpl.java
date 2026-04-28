@@ -21,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -49,9 +48,7 @@ public class UserServiceImpl  implements UserService {
                         .description("User role")
                         .build()));
 
-        HashSet<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+        user.setRole(role);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -74,15 +71,15 @@ public class UserServiceImpl  implements UserService {
 
         userMapper.updateUserFromRequest(request, user);
 
-        // vì mapper không thể tự convert string sang object Role nên phải convert thủ công ở đây
-        // vì request là dạng set string nên phải convert sang set Role, nếu không sẽ bị lỗi khi save user vì user có field roles là set Role
+        if (request.getRole() != null && !request.getRole().isBlank()) {
+            Role role = roleRepository.findById(request.getRole())
+                    .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED));
+            user.setRole(role);
+        }
 
-
-        // Đưa dạng string vào dđây để tìm kiếm trong db , rồi return dạng object Role
-        var roles = roleRepository.findAllById(request.getRoles());
-
-        // Sau dđó hashset từ list về set(loại bỏ role trùng) cho lại cho user
-        user.setRoles(new HashSet<>(roles));
+        if (user.getRole() == null) {
+            throw new AppException(ErrorCode.INVALID_ROLE);
+        }
 
         userRepository.save(user);
 

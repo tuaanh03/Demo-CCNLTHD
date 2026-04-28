@@ -3,8 +3,6 @@ package com.example.cinema_booking.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Set;
-
 @Data  //@Data = @Getter + @Setter + @ToString + @EqualsAndHashCode + @RequiredArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -17,5 +15,5 @@ public class UserResponse {
     //Khi test mã hóa password thì add password attribute vào dđây, nhưng khi trả về response thì ko nên trả về password
     // String password;
     String phone;
-    Set<RoleResponse> roles;
+    RoleResponse role;
 }

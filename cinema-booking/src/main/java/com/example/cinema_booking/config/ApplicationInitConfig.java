@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Set;
-
 @Configuration
 @Slf4j
 public class ApplicationInitConfig {
@@ -39,7 +37,7 @@ public class ApplicationInitConfig {
 
                    User user = User.builder()
                            .email(adminEmail)
-                           .roles(Set.of(adminRole))
+                           .role(adminRole)
                            .password(passwordEncoder.encode("admin"))
                            .build();
 

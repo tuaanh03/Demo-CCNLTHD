@@ -1,13 +1,8 @@
 package com.example.cinema_booking.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -25,7 +20,8 @@ public class User {
     String password;
     String phone;
 
-    @ManyToMany
-    Set<Role> roles;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_name", nullable = false)
+    Role role;
 
 }

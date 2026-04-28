@@ -13,7 +13,10 @@ CREATE TABLE IF NOT EXISTS `user` (
     `name` VARCHAR(255),
     `email` VARCHAR(255) UNIQUE,
     `password` VARCHAR(255),
-    `phone` VARCHAR(50)
+    `phone` VARCHAR(50),
+    `role_name` VARCHAR(255) NOT NULL,
+    CONSTRAINT `fk_user_role`
+        FOREIGN KEY (`role_name`) REFERENCES `role`(`name`)
 );
 
 CREATE TABLE IF NOT EXISTS `invalidated_token` (
@@ -31,12 +34,3 @@ CREATE TABLE IF NOT EXISTS `role_permissions` (
         FOREIGN KEY (`permissions_name`) REFERENCES `permission`(`name`) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS `user_roles` (
-    `user_id` VARCHAR(36) NOT NULL,
-    `roles_name` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`user_id`, `roles_name`),
-    CONSTRAINT `fk_user_roles_user`
-        FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
-    CONSTRAINT `fk_user_roles_role`
-        FOREIGN KEY (`roles_name`) REFERENCES `role`(`name`) ON DELETE CASCADE
-);
